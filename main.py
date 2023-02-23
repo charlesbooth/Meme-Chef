@@ -44,7 +44,7 @@ async def on_message(message):
 
     '''delete message and send start-up feedback'''
     await message.delete()
-    await message.channel.send('*Turns on stove.*')
+    await message.channel.send('**Turns on stove.**')
 
     '''create the meme'''
     meme_link = make_meme(attachment_link,
