@@ -38,6 +38,7 @@ async def on_message(message):
     '''assign bottom text, if applicable / if not, only use top'''
     if len(msg) > 1:
       bottom_text = msg[1]
+    bottom_text = ''
 
     '''get url from attachment'''
     attachment_link = message.attachments[0].url
