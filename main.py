@@ -1,8 +1,6 @@
 import discord
 import os
 
-from collections import deque
-
 from meme import make_meme
 
 
@@ -30,7 +28,7 @@ async def on_message(message):
     msg = message.content[1:].split('-')
 
     '''if message is empty (aside from $), end it and return message'''
-    if not msg[0]:
+    if not msg:
       await message.channel.send('Get me-a some a real-a food!!')
       return
 
@@ -45,8 +43,6 @@ async def on_message(message):
     '''get url from attachment'''
     attachment_link = message.attachments[0].url
 
-    #data = (attachment_link, top_text, bottom_text)
-
     '''delete message and send start-up feedback'''
     await message.delete()
     await message.channel.send('***Turns on stove.***')
@@ -55,25 +51,22 @@ async def on_message(message):
     meme_link = make_meme(attachment_link,
                           top_text,
                           bottom_text)
-
+  
     '''return link to meme'''
     await message.channel.send(meme_link)
 
+
 '''start bot'''
 try:
-  code = os.environ.get('CODE')
-  client.run(code)
+    code = os.environ.get('CODE')
+    client.run(code)
 except(TypeError):
-  print('',
-        'Failure to start.',
-        'Make sure project directory contains .env file.',
-        sep = '\n')
+    print('',
+          'Failure to start.',
+          'Make sure project directory contains .env file.',
+          sep = '\n')
 except(discord.errors.LoginFailure):
-  print('',
-        'Invalid token was given.',
-        'Make sure token is entered correctly/not expired.',
-        sep = '\n')
-
-
-
-  
+    print('',
+          'Invalid token was given.',
+          'Make sure token is entered correctly/not expired.',
+          sep = '\n')
