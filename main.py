@@ -22,22 +22,29 @@ async def on_message(message):
   if message.author == client.user:
     return
 
-  '''check if message has $ and additional text'''
-  if message.content.startswith('$') and message.attachments:
+  '''check if message has !mc, attachments, and text'''
+  if message.content.lower().startswith('!mc'):
+    '''check if message has attachments'''
+    if not message.attachments:
+       message.delete()
+       await message.channel.send('**Your-a message has-a no attachments, so add-a some attachments. Capeesh??**')
+       return
+    
     '''split message into sections (used for top and bottom text)'''
-    msg = message.content[1:].split('-')
+    msg = message.content[3:].split('~')
 
     '''if message is empty (aside from $), end it and return message'''
-    if not msg:
-      await message.channel.send('Get me-a some a real-a food!!')
+    if not msg[0]:
+      message.delete()
+      await message.channel.send('**Get me-a some a real-a food!! Add-a some-a text!**')
       return
 
     '''assign top text'''
-    top_text = msg[0]
+    top_text = msg[0].strip()
 
     '''assign bottom text, if applicable / if not, only use top'''
     if len(msg) > 1:
-      bottom_text = msg[1]
+      bottom_text = msg[1].strip()
     else:
       bottom_text = ''
 
@@ -46,7 +53,7 @@ async def on_message(message):
 
     '''delete message and send start-up feedback'''
     await message.delete()
-    await message.channel.send('***Turns on stove.***')
+    await message.channel.send('***Cums on stove.***')
 
     '''create the meme'''
     meme_link = make_meme(attachment_link,
