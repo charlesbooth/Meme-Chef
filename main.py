@@ -13,10 +13,6 @@ client = discord.Client(intents=intents)
 
 
 @client.event
-async def on_ready():
-   print('We have logged in as {0.user}'.format(client))
-
-@client.event
 async def on_message(message):
   '''ignore message from bot'''
   if message.author == client.user:
@@ -26,16 +22,16 @@ async def on_message(message):
   if message.content.lower().startswith('!mc'):
     '''check if message has attachments'''
     if not message.attachments:
-       message.delete()
+       await message.delete()
        await message.channel.send('**Your-a message has-a no attachments, so add-a some attachments. Capeesh??**')
        return
     
     '''split message into sections (used for top and bottom text)'''
-    msg = message.content[3:].split('~')
+    msg = message.content[3:].split('~', 1)
 
     '''if message is empty (aside from $), end it and return message'''
     if not msg[0]:
-      message.delete()
+      await message.delete()
       await message.channel.send('**Get me-a some a real-a food!! Add-a some-a text!**')
       return
 
@@ -53,7 +49,7 @@ async def on_message(message):
 
     '''delete message and send start-up feedback'''
     await message.delete()
-    await message.channel.send('***Cums on stove.***')
+    await message.channel.send('***Turns on stove.***')
 
     '''create the meme'''
     meme_link = make_meme(attachment_link,
