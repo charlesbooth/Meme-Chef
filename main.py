@@ -2,6 +2,7 @@ import discord
 import os
 
 from meme import make_meme
+from collections import deque
 
 
 intents = discord.Intents.all()
@@ -11,6 +12,13 @@ intents.presences = True
 
 client = discord.Client(intents=intents)
 
+meme_queue = deque([])
+
+
+@client.event
+async def on_ready():
+   print('We have logged in as {0.user}'.format(client))
+
 
 @client.event
 async def on_message(message):
@@ -19,7 +27,7 @@ async def on_message(message):
     return
 
   #'''check if message has !mc, attachments, and text'''
-  if message.content.lower().startswith('!mc'):
+  if message.content.lower().startswith('$mc'):
     #'''check if message has attachments / if not, delete and return'''
     if not message.attachments:
        await message.delete()
@@ -36,6 +44,10 @@ async def on_message(message):
       return
     
     meme_info = tuple()
+
+    #'''get user'''
+    creator = message.author.mention
+    meme_info += (creator,)
     
     #'''get message attachment url'''
     attachment_link = message.attachments[0].url
@@ -52,13 +64,16 @@ async def on_message(message):
 
     #'''store info in queue'''
     meme_queue.append(meme_info)
-    await message.channel.send('***Turns on stove.***')
+    await message.channel.send\
+      ('**Your meme is in the oven!** {}'.format(creator))
+    
+    '''need to add waiting message and delete for waiting message'''
 
     while meme_queue:
       current_meme = meme_queue.popleft()
       meme_link = make_meme(*current_meme)
-      message.delete()
-      await message.channel.send(meme_link)
+      await message.channel.send\
+        ('%s %s' % meme_link)
       if not meme_queue:
          break
 
