@@ -95,26 +95,26 @@ class Imgflip_Paths:
         return link
 
 
-def make_meme(image_link, top_text, bottom_text):
-    '''call class'''
+def make_meme(user, image_link, top_text, bottom_text=''):
+    #'''call class'''
     flip = Imgflip_Paths()
 
-    '''upload image'''
+    #'''upload image'''
     flip.click_new_template()
     flip.enter_image_link(image_link)
     flip.click_upload()
 
-    '''fill text'''
+    #'''fill text'''
     flip.enter_top_text(top_text)
     flip.enter_bottom_text(bottom_text)
 
-    '''generate meme, get link, and close driver'''
+    #'''generate meme, get link, and close driver'''
     flip.click_generate()
     result = str(flip.get_result())
     flip.driver.close()
     
-    '''send link to main.py'''
-    return result
+    #'''send link to main.py'''
+    return (user, result)
  
 
 def main():

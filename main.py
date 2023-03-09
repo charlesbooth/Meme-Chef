@@ -19,7 +19,6 @@ meme_queue = deque([])
 async def on_ready():
    print('We have logged in as {0.user}'.format(client))
 
-
 @client.event
 async def on_message(message):
   #'''ignore message from bot'''
@@ -27,7 +26,7 @@ async def on_message(message):
     return
 
   #'''check if message has !mc, attachments, and text'''
-  if message.content.lower().startswith('$mc'):
+  if message.content.lower().startswith('!mc'):
     #'''check if message has attachments / if not, delete and return'''
     if not message.attachments:
        await message.delete()
